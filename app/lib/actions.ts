@@ -152,6 +152,27 @@ export async function createApprovalItem(formData: FormData) {
   revalidatePath(`/g/${groupSlug}`);
 }
 
+export async function updateApprovalItem(formData: FormData) {
+  const itemId = cleanText(formData.get("itemId"));
+  const groupSlug = cleanText(formData.get("groupSlug"));
+  const title = cleanText(formData.get("title"));
+  const details = cleanText(formData.get("details"));
+
+  if (!itemId || !title || !details) return;
+
+  const item = await prisma.approvalItem.update({
+    where: { id: itemId },
+    data: {
+      title,
+      details,
+    },
+    select: { groupId: true },
+  });
+  await touchGroup(item.groupId);
+
+  revalidatePath(`/g/${groupSlug}`);
+}
+
 export async function toggleApproval(formData: FormData) {
   const checkId = cleanText(formData.get("checkId"));
   const groupSlug = cleanText(formData.get("groupSlug"));

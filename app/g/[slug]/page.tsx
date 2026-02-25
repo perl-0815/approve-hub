@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import QRCode from "qrcode";
 import { AddApprovalItemModal } from "@/app/components/add-approval-item-modal";
 import { ApprovalCheckbox } from "@/app/components/approval-checkbox";
+import { EditApprovalItemModal } from "@/app/components/edit-approval-item-modal";
 import { EditApproverModal } from "@/app/components/edit-approver-modal";
 import { EditGroupTitleModal } from "@/app/components/edit-group-title-modal";
 import { ShareModal } from "@/app/components/share-modal";
@@ -181,7 +182,15 @@ export default async function GroupPage({ params }: GroupPageProps) {
                 <article key={item.id} className="timeline-item">
                   <div className="timeline-header">
                     <div>
-                      <p className="item-title">{item.title}</p>
+                      <div className="item-title-row">
+                        <p className="item-title">{item.title}</p>
+                        <EditApprovalItemModal
+                          itemId={item.id}
+                          groupSlug={group.slug}
+                          currentTitle={item.title}
+                          currentDetails={item.details}
+                        />
+                      </div>
                       <p className="item-meta">
                         申請者: {item.requester ?? "未入力"} ・ {formatDate(item.createdAt)}
                       </p>

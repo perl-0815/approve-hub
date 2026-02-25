@@ -482,6 +482,16 @@ h2 {
   font-weight: 700;
 }
 
+.item-title-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.item-edit-btn {
+  padding: 0;
+}
+
 .item-meta {
   margin-top: 0.3rem;
   color: var(--muted);
