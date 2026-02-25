@@ -24,6 +24,9 @@ export function EditApprovalItemModal({ itemId, groupSlug, currentTitle, current
 
   return (
     <>
+      <button type="button" className="item-title-text-btn" aria-label="確認事項を編集" onClick={() => setOpen(true)}>
+        <span className="item-title">{currentTitle}</span>
+      </button>
       <button type="button" className="icon-btn item-edit-btn" aria-label="確認事項を編集" onClick={() => setOpen(true)}>
         <PencilIcon className="mini-icon" />
       </button>

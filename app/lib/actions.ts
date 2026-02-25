@@ -52,6 +52,23 @@ export async function updateGroupTitle(formData: FormData) {
   revalidatePath(`/g/${cleanText(formData.get("groupSlug"))}`);
 }
 
+export async function deleteGroup(formData: FormData) {
+  const groupId = cleanText(formData.get("groupId"));
+  const groupSlug = cleanText(formData.get("groupSlug"));
+
+  if (!groupId) return false;
+
+  await prisma.group.delete({
+    where: { id: groupId },
+  });
+
+  revalidatePath("/");
+  if (groupSlug) {
+    revalidatePath(`/g/${groupSlug}`);
+  }
+  return true;
+}
+
 export async function addApprover(formData: FormData) {
   const groupId = cleanText(formData.get("groupId"));
   const groupSlug = cleanText(formData.get("groupSlug"));

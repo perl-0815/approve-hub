@@ -47,7 +47,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${notoSansJp.variable} ${jetBrainsMono.variable}`}>{children}</body>
+      <body className={`${notoSansJp.variable} ${jetBrainsMono.variable}`}>
+        <div className="app-shell">
+          {children}
+          <footer className="app-footer">© 2026 Kozyutu</footer>
+        </div>
+      </body>
     </html>
   );
 }

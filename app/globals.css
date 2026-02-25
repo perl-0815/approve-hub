@@ -29,6 +29,22 @@ body {
     var(--bg);
 }
 
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.82rem;
+  padding: 0.8rem 0 1.1rem;
+}
+
 h1,
 h2,
 h3,
@@ -131,6 +147,10 @@ button {
   font: inherit;
 }
 
+select {
+  font: inherit;
+}
+
 input,
 textarea {
   width: 100%;
@@ -139,6 +159,14 @@ textarea {
   background: #fff;
   color: var(--text);
   padding: 0.65rem 0.75rem;
+}
+
+select {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  padding: 0.45rem 0.6rem;
 }
 
 textarea {
@@ -245,6 +273,24 @@ h2 {
 .group-title-main {
   font-size: clamp(1.9rem, 4.8vw, 2.9rem);
   line-height: 1.2;
+  color: var(--primary);
+}
+
+.group-title-trigger {
+  border: none;
+  background: transparent !important;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  color: var(--primary) !important;
+  font: inherit;
+  line-height: inherit;
+  appearance: none;
+}
+
+.group-title-trigger:hover {
+  filter: none;
+  opacity: 0.88;
 }
 
 .icon-btn {
@@ -459,6 +505,58 @@ h2 {
   gap: 0.6rem;
 }
 
+.timeline-toolbar {
+  margin-top: 0.7rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+}
+
+.timeline-notice {
+  margin-top: 0.75rem;
+  border: 1px solid color-mix(in oklab, var(--primary) 25%, var(--line));
+  border-radius: 12px;
+  background: var(--primary-soft);
+  padding: 1rem;
+  text-align: center !important;
+}
+
+.timeline-notice .empty {
+  margin: 0;
+  color: var(--text);
+}
+
+.toggle-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #f7f9ff;
+}
+
+.toggle-btn {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.toggle-btn:hover {
+  filter: none;
+  background: #eef3ff;
+}
+
+.toggle-btn.active {
+  background: #374151 !important;
+  color: #fff !important;
+  border-color: #374151 !important;
+}
+
 .add-item-btn {
   white-space: nowrap;
   border-radius: 10px;
@@ -480,16 +578,35 @@ h2 {
 
 .item-title {
   font-weight: 700;
+  font-size: clamp(1.12rem, 2.1vw, 1.35rem);
+  color: var(--primary);
 }
 
 .item-title-row {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.45rem;
+}
+
+.item-title-text-btn {
+  border: none;
+  background: transparent !important;
+  color: var(--primary);
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-shadow: none;
+}
+
+.item-title-text-btn:hover {
+  filter: none;
+  opacity: 0.85;
 }
 
 .item-edit-btn {
-  padding: 0;
+  background: transparent !important;
+  padding: 0.05rem;
 }
 
 .item-meta {
@@ -510,8 +627,8 @@ h2 {
 
 .status {
   border-radius: 999px;
-  padding: 0.3rem 0.65rem;
-  font-size: 0.82rem;
+  padding: 0.38rem 0.74rem;
+  font-size: 0.92rem;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
