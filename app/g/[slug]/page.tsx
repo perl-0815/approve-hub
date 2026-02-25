@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
@@ -18,6 +19,56 @@ type GroupPageProps = {
     slug: string;
   }>;
 };
+
+async function getGroupForMeta(slug: string) {
+  return prisma.group.findUnique({
+    where: { slug },
+    select: {
+      title: true,
+      _count: {
+        select: {
+          approvers: true,
+          approvalItems: true,
+        },
+      },
+    },
+  });
+}
+
+export async function generateMetadata({ params }: GroupPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const group = await getGroupForMeta(slug);
+
+  if (!group) {
+    return {
+      title: "グループが見つかりません",
+      description: "指定されたグループは存在しないか、削除されています。",
+    };
+  }
+
+  const description = `${group.title} の承認ページ。担当者${group._count.approvers}人、確認事項${group._count.approvalItems}件。`;
+
+  return {
+    title: group.title,
+    description,
+    alternates: {
+      canonical: `/g/${slug}`,
+    },
+    openGraph: {
+      type: "website",
+      title: group.title,
+      description,
+      url: `/g/${slug}`,
+      siteName: "Approve Hub",
+      locale: "ja_JP",
+    },
+    twitter: {
+      card: "summary",
+      title: group.title,
+      description,
+    },
+  };
+}
 
 function formatDate(date: Date) {
   return new Intl.DateTimeFormat("ja-JP", {
