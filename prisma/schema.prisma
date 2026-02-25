@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Group {
+  id            String         @id @default(cuid())
+  title         String
+  slug          String         @unique
+  createdAt     DateTime       @default(now())
+  lastActiveAt  DateTime       @default(now())
+  approvers     Approver[]
+  approvalItems ApprovalItem[]
+
+  @@index([lastActiveAt])
+}
+
+model Approver {
+  id        String          @id @default(cuid())
+  name      String
+  createdAt DateTime        @default(now())
+  groupId   String
+  group     Group           @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  checks    ApprovalCheck[]
+
+  @@index([groupId])
+}
+
+model ApprovalItem {
+  id        String          @id @default(cuid())
+  title     String
+  requester String?
+  details   String
+  createdAt DateTime        @default(now())
+  groupId   String
+  group     Group           @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  checks    ApprovalCheck[]
+  comments  Comment[]
+
+  @@index([groupId, createdAt])
+}
+
+model ApprovalCheck {
+  id         String       @id @default(cuid())
+  approved   Boolean      @default(false)
+  approvedAt DateTime?
+  itemId     String
+  item       ApprovalItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  approverId String
+  approver   Approver     @relation(fields: [approverId], references: [id], onDelete: Cascade)
+
+  @@unique([itemId, approverId])
+  @@index([itemId])
+  @@index([approverId])
+}
+
+model Comment {
+  id        String       @id @default(cuid())
+  author    String
+  body      String
+  createdAt DateTime     @default(now())
+  itemId    String
+  item      ApprovalItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@index([itemId, createdAt])
+}
